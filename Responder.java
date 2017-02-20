@@ -9,8 +9,8 @@ import java.util.HashMap;
  * class. This time, we generate some random behavior by randomly selecting 
  * a phrase from a predefined list of responses.
  * 
- * @author     Michael Kölling David J. Barnes, and Gavin Kyte
- * @version    0.3 (2017.2.12)
+ * @author     Gavin Kyte
+ * @version    1.1 (2017.2.19)
  */
 public class Responder
 {
@@ -19,7 +19,8 @@ public class Responder
     private ArrayList<String> defaultResponses;
     private String endingString;
     private String name;
-
+    private int responseCount;
+    
     /**
      * Construct a Responder
      */
@@ -29,6 +30,7 @@ public class Responder
         defaultResponses = new ArrayList<>();
         endingString = "bye";
         name = "Name";
+        responseCount = 0;
         fillResponses();
     }
 
@@ -46,20 +48,32 @@ public class Responder
         
         // Getting list of matched responses
         ArrayList<String> matches = new ArrayList<>();
-        for (String key : responses.keySet()){
+        for (String key : responses.keySet()) {
             if (text.contains(key)) {
-                matches.add(responses.get(key));
-            }
+                String currentPhrase = responses.get(key);
+                
+                // Adapts pattern response to current input
+                if (currentPhrase.startsWith("PATTERN")) {currentPhrase = patternResponse(currentPhrase, key, input); }
+                matches.add(currentPhrase);
+            }  
         }
         
-        if (matches.size() > 0) {
-            // Pick a response from the matched list, or return default if no matches
+        // Pick a response from the matched list, or return default if no matches
+        if (matches.size() > 0) {            
             int pickRandom = randomGenerator.nextInt(matches.size());
             response = matches.get(pickRandom);
         }
         
-        String uniqueResponse = addName(response);
-        return uniqueResponse;
+        // Override the basic or multi-response with a pattern response if any available
+        for (String match : matches){
+            // Removes "PATTERN" and selects that response when applicable
+            if (match.startsWith("PATTERN")) { response = match.substring(8); }
+        }
+        
+        // Personalize final response and increment responseCount
+        responseCount++;
+        String personalResponse = addName(response);
+        return personalResponse;
     }
 
     /**
@@ -102,32 +116,59 @@ public class Responder
      * Build up a list of responses
      */
     private void fillResponses() {
-        responses.put("how", "I am doing well. How are you?");
+        responses.put("how are you", "I'm doing well. How are you?");
         responses.put("bad", "Oh no! What can we do to make you feel better?");
         responses.put("good", "That's great! I feel that way when I listen to music.");
         responses.put("no", "Oh. Well, it's true.");
+        responses.put("yes", "I didn't understand that. Yes what?");
+        responses.put("meet you", "Aw thanks! Do you like music?");
         
-        responses.put("music", "What kind of music do you like?");
+        responses.put("like music", "What kind of music do you like?");
         responses.put("rock", "I love AC/DC. How about you?");
-        responses.put("pop", "Nice, my buddy listens to JPop. He's a bit weird though. ");
-        responses.put("country", "Ah, my friend Nick loves country music. Was your hometown rural, or more urban?");
+        responses.put("pop", "Nice, my buddy listens to JPop. He's a bit weird though.");
+        responses.put("country", "That's awesome. My friend Nick loves country music. Was your hometown rural, or more urban?");
         responses.put("rural", "Nice, Nick also grew up in the country, correlation maybe?");
         responses.put("urban", "How strange. Everyone I know in the city hates country. You're pretty special!");
-        responses.put("jazz", "Jazz?! We need to go downtown sometime, I know a great place.");
-        responses.put("love", "Do you really? I support that for sure.");
-        responses.put("classic", "Ooh, classic rock or more like Beethoven classic?");
-        responses.put("beethoven", "");
-        responses.put("too", "You do too? Small world.");
+        /** This may be a pattern */ responses.put("jazz", "Did you say jazz?! We need to go downtown sometime, I know a great jazz club OTR.");
+        //responses.put("love", "Do you really? I support that for sure.");
+        responses.put("classic", "Do you mean classic rock or more like Beethoven?");
+        responses.put("classical", responses.get("classic"));
+        responses.put("beethoven", "Not many people listen to classical music, why do you like it?");
+        responses.put("too", "You too? Oh, that makes me happy.");
         responses.put("nothing", "Nothing at all? So you're the quiet type I see.");
         responses.put("edm", "That's definitely the best for homework and gaming in my opinion.");
-        responses.put("dubstep", "That's definitely the best for homework and gaming in my opinion.");
+        responses.put("dubstep", responses.get("edm"));
         
+        responses.put("I love", "PATTERN I haven't heard of X before, how long have you liked that?");
+        responses.put("I like", responses.get("I love"));
+                
         defaultResponses.add("Not sure what you mean, could you say that more simply, or in a different way?");
-        defaultResponses.add("Oh, that's how my brother died. Can we change the topic to jazz?");
+        defaultResponses.add("That reminds me of how my brother died. Can we change the topic?");
         defaultResponses.add("Did you know that aliens smell purple and love breadsticks?");
         
         //"favorite, EDM, dubstep, singing, vocals, drums, band, instrument, earbuds, headphones, iphone7, audio"
         //"Oh, I'm sorry but I think we need to change topics."       
+    }
+    
+    /**
+     * Acknowledges patterns in user input to make unique responses based on
+     * the phrase that stands as a variable in the pattern.
+     * 
+     * @return String used as unique, pattern-based response
+     */
+    public String patternResponse(String template, String pattern, String input) {
+        // Need to cut out phrase from input and clean it
+        // Get start index based on pattern, then get end based on punctuation or EOS
+        int startOfPhrase = input.indexOf(pattern) + pattern.length() + 1;
+        int endOfPhrase = input.indexOf(",", startOfPhrase);
+        String phrase = formatText(input.substring(startOfPhrase, endOfPhrase)).trim();
+        
+        // Allows for more flexible sentence construction
+        String firstHalf = template.split("X")[0];
+        String lastHalf = template.split("X")[1];
+        
+        String response = firstHalf + phrase + lastHalf;
+        return response;
     }
     
     /**
@@ -137,7 +178,7 @@ public class Responder
      */
     private String formatText(String text) {
         // Scrub out any punctuation
-        String[] punctuation = {",",".","?","(",")",":",";","<",">","#","$", "@"};
+        String[] punctuation = {",",".","?","(",")",":",";","<",">","#","$","@"};
         for (String symbol : punctuation) {
             text = text.replace(symbol, "");
         }
@@ -160,9 +201,11 @@ public class Responder
          * - Sentence logic error. I.e. "Name, oh! I also do that." 
          * - Phrase empty
          */
+        boolean includeName = randomGenerator.nextBoolean();
+        boolean canBeFront = !(phrase.startsWith("Oh") || phrase.startsWith("Nice") || phrase.startsWith("Aw"));
         
         // Deciding front or back
-        if (randomGenerator.nextInt(2) == 1) {
+        if (includeName && (canBeFront && responseCount % 2 == 1)) {
             // front
             // lower case start of string if not "I "
             if (! phrase.startsWith("I ")) {
@@ -170,7 +213,7 @@ public class Responder
             }
             phrase = name + ", " + phrase;
             
-        } else {
+        } else if (includeName) {
             // back
             // need to splice in name before ending punctuation
             phrase = phrase.substring(0, phrase.length()-1) + ", " + name + phrase.charAt(phrase.length()-1);

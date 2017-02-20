@@ -1,12 +1,6 @@
-------------------------------------------------------------------------
-This is the project README file. Here, you should describe your project.
-Tell the reader (someone who does not know anything about this project)
-all he/she needs to know. The comments should usually include at least:
-------------------------------------------------------------------------
-
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
-USER INSTRUCTIONS:
+PROJECT TITLE: Chatter
+PURPOSE OF PROJECT: Create a Smart IO conversation bot
+VERSION or DATE: 19.2.2017
+HOW TO USE Chatter: Main implementation is in BlueJay, but a plain java console can be used as well
+AUTHORS: Gavin Kyte
+USER INSTRUCTIONS: Create a Chatter object and call start(). The conversation is about music and some small talk.
