@@ -44,6 +44,7 @@ public class ChatterTest
     public void generalTest()
     {
         Chatter chatter1 = new Chatter();
+        chatter1.start();
     }
 }
 

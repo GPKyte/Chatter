@@ -1,9 +1,11 @@
 
 /**
- * This class 
+ * This class is a top-level wrapper designed to start and hold a conversation.
+ * The topic is decided within the Responder class, as are the responses
+ * and messages.
  * 
  * @author      Gavin Kyte
- * @version     0.1 (2017.2.12)
+ * @version     1.0 (2017.2.19)
  */
 public class Chatter
 {
@@ -41,7 +43,7 @@ public class Chatter
     }
     
     /**
-     * Prints welcome message
+     * Prints welcome message, and sets the name within responder
      */
     public void printWelcome() {
         responder.printWelcome();

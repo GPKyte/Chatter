@@ -38,15 +38,17 @@ public class Responder
      * @return  A string that should be displayed as the response
      */
     public String generateResponse(String input) {
-        ArrayList<String> text = formatText(input);
-        // Get default response randomly
+        // Clean input
+        String text = formatText(input);
+        
+        // Set default response to a random phrase
         String response = defaultResponses.get(randomGenerator.nextInt(defaultResponses.size()));
         
         // Getting list of matched responses
         ArrayList<String> matches = new ArrayList<>();
-        for (String keyword : text){
-            if (responses.get(keyword) != null) {
-                matches.add(responses.get(keyword));
+        for (String key : responses.keySet()){
+            if (text.contains(key)) {
+                matches.add(responses.get(key));
             }
         }
         
@@ -68,7 +70,17 @@ public class Responder
     }
     
     /**
-     * Prints welcome message
+     * Workaround to avoid repeat code for Input
+     * This will set the name needed to personalize phrases
+     */
+    public void setName(String name) {
+        this.name = name;
+        System.out.println("Nice to meet you, " + name + "!");
+    }
+
+    /**
+     * Prints welcome message.
+     * Needs to be before the setName method to give instructions
      */
     public void printWelcome() {
         System.out.println("Welcome to Chatter!");
@@ -76,7 +88,7 @@ public class Responder
         System.out.println("This system is designed to talk about music.");
         System.out.println("Talk as much as you want and have fun!");
         System.out.println("Type 'bye' to stop the chat.");
-        System.out.println("Please type your name below to begin.");        
+        System.out.println("\nPlease type your name below to begin.");
     }
     
     /**
@@ -119,37 +131,18 @@ public class Responder
     }
     
     /**
-     * Strips text of punctuation, then splits it into an ArrayList
+     * Strips text of common punctuation marks
      * 
-     * @return An ArrayList containing words from input without punctuation
+     * @return String of words from input without punctuation
      */
-    public ArrayList<String> formatText(String text) {
-        // First step is to scrub out any punctuation
-        String[] punctuation = {",",".","?","(",")",":",";","<",">","#","$"};
+    private String formatText(String text) {
+        // Scrub out any punctuation
+        String[] punctuation = {",",".","?","(",")",":",";","<",">","#","$", "@"};
         for (String symbol : punctuation) {
             text = text.replace(symbol, "");
         }
-        
-        // Second, split the sentence at every space
-        // "\\s+" will remove whitespace, even if multiple spaces are used
-        String[] wordList = text.split("\\s+");       
-
-        // Finally, put words into ArrayList
-        ArrayList<String> formattedText = new ArrayList<>();
-        for (String word : wordList){
-            formattedText.add(word);
-        }
-        
-        return formattedText;
-    }
-    
-    /**
-     * Workaround to avoid repeat code for Input
-     * This will set the name needed to personalize phrases
-     */
-    public void setName(String name) {
-        this.name = name;
-        System.out.println("Nice to meet you, " + name + "!");
+              
+        return text;
     }
     
     /**
