@@ -1,0 +1,360 @@
+9:29 PM 2/12/2017
+	Starting project. Looking at requirements and developing plan of action.
+	Going to get warmed up on the base level.
+10:12 PM
+	Think that D-level is complete. Taking break.
+10:50 PM
+	Did a quick test of D-level. Moving to C.
+	Need to think of responses and conversations.
+11:02 PM
+	Having creative block on theme of conversation.
+11:07 PM	
+	Thinking of way to effectively give a scrubbed input to the responder.
+	i.e. remove (), " " , and .
+11:19 PM
+	Using a private fxn that will format user input into a list
+	The list will have all the words used but without punctuation.
+	Debating if this is the best form.
+	Want the prog to be able to assign significance to words.
+		This may require that it counts what is used or ignores common words
+		The latter may not be necessary since the hashmap of responses only knows keywords
+11:25 PM
+	No idea what theme I want the conversation to be. Brainstorming:
+	-- school, sports, cooking, birdwatching, weather --
+11:27 PM
+	Creating a formatText() that turns text into a list of words that don't have punctuation (),.
+	This isn't like python, I'll probably need to instantiate the list first locally,
+	then add the words from text.split(\\s)
+11:35 PM 2/12/2017
+	Log Out.
+	Reason: Going to bed.
+
+10:24 PM 2017.2.13
+	Forgot to start log when starting on homework.
+	Probably started about 20 minutes ago
+	Have got a rough version that will clean input punctuation and puts it into ArrayList.
+	Need water.
+	Got water. Continuing at 10:34
+10:39 PM
+	Realized why it's best to have .startsWith("bye") instead of .equals("bye")
+	Really not wanting to come up with responses.
+	Let's pick a topic and try anyway.
+	Picking "Food and cooking"
+10:43
+	NTS: Don't remove "?" from the statents, could use that to bring questions from the user
+	into the conversation. Must think on this.
+	Not sure what I'm doing right now, checking assignment.
+10:51
+	Started helping two people with accounting homework.
+10:58
+	Still distracted by their micro econ discussion.
+	For generateResponse(), I think that I want to create a local var containing all of the matched responses
+	Then it will be easier later to assign value to the responses. For now, it will be a random matched response
+11:14
+	Explained to roomate what I'm doing in Data Mining.
+11:42 PM 2017.2.13
+	Think I have a decent lead on C-level, I haven't tested it though because I don't have responses.
+	Logging Out.
+	Reason: Going to bed.
+
+4:55 PM 2017.2.18
+	Doing some work on project. Reading logs to see where to begin.
+	Tested the formatText method. It works well. May choose different format (HashSet maybe?)
+	Going to create some responses even if I don't like them. Wish me luck.
+	Think that I may differentiate between response levels. I.e. have basic responses,
+	and mulit-match responses that are more complicated.
+4:58
+	I know nothing about cooking, that was a bad choice.
+	Think that I want to go off of the pyschiatrist idea, although I'd like to do
+	techsupport since that's what I do.
+5:05
+	Trying to run through conversations in my head. This part is difficult.
+5:54
+	Decided on music and related small talk. By far the hardest decision in this project.
+6:04
+	Wondering if I can assign a string to mulitple keys.. How would I?
+	Also, I think that a ArrayList full of other lists or HashMaps could be
+	helpful in layering responses.
+	Would order matter? --Yes. Is that bad? --No. Alternate orders could be significant.
+	It may be easy to have a non input-order-significant system, and also possibly just
+	as effective. But pattern would need to be ordered, and I could develop dynamic responses
+	that use the X in I like X.
+	
+6:06
+	How would I get the response generator to know how far to check for responses?
+	Is it bad to not know my final result and continue developing for a specific type
+	of storage system? Probably. But I won't know what works the best until I try
+	out some ideas, therefore I will develop just enough to be tested,
+	then truly develop content to fill it when the final product is near completion.
+	Good plan Gavin. Break for food. 
+
+	6:09 PM
+
+5:11 PM 2017.2.19
+	Did not log out before. Oops. Wondering if this journal is meeting the project standards.
+	Continuing from yesterday. Status:
+	- D level // done
+	- C level // done
+	- B level // Need to add name. Need to add fxn to do multiword phrase. Have random select match.
+	- A level // ??? Like the pattern matching idea. Want to have levels of conversation. Guided response?
+
+5:35
+	Working on adding name to phrase. When should I ask for name? And where do I store it?
+	Probably at the start, and probably in Responder, rather than Chatter because Responder
+	can't easily backwards reference Chatter for the variables it contains, therefore,
+	the name needs to be in the Responder class.
+	This can be in the welcome message without disturbing too much of the game flow.
+	Ah, but I don't have a way of getting input from the Responder. I'll create
+	a setName function or something then and call it from Chatter's welcome method.
+
+5:57
+	Going to test string manipulation in console. Want to change substring, think I need
+	to make new string though, which is less desireable.
+
+6:32
+	Have a working, random phrase manipulator. It now will add the name of the user to
+	the start or end of the sentence with correct capitalization and punctuation.
+	Albeit, some phrases may not support this feature well and will sound clunky.
+	But the responses aren't my top priority, but rather the engine, so I will continue.
+	Next is the multiword phrasing. Let's think about that a bit.
+
+	I currently loop through the input list and check if the HashMap of responses has any
+	matching keys, then the response is one of the matched responses, at random. This new
+	implementation is somewhat ambiguous, I'm going to take a water break to think about it.
+
+6:42
+	This system change may run against the current format of my input (an ArrayList).
+	So, if my HashMap of responses is going to contain multi-word keys,
+	then matches can be found in these ways:
+	- check each word in input for place in response list, if the match of a combo,
+	  their could be another List of sorts inside that value and the next input word
+	  could be checked inside of this.
+		- This method may be helpful for pattern matching, but is not clear to implement
+		  at the moment and may cause more harm than good by holding onto current model.
+	- check each key in HMap for a match in the input string (not input list)
+		- if a ".contains" method exists for strings, this may be faster,
+		  and easier to implement.
+		- Will it work on pattern matching?
+		  ("I like " + X)
+		  responses.put("I like", patternResponse(X, "I haven't heard of <X>, tell me about it."))
+			- I like this idea, I want to develop it more later
+	- Some other way.
+-- Side note: I think I may start doing version control with GitHub on these
+-- 	It would be good professionally to add my good projects, and I could include these logs.
+
+7:00
+	Setting up GitHub Repo for this project
+
+7:30
+	Set up on GitHub, and made minor changes to Chatter and Responder. Going to start
+	making system change for multi-word matching.
+	This involves changing formatText, and generateResponse
+	 - input will remain a string, but will still be stripped of punctuation
+	 - generateResponse will check input for keys now and be cleaned up in general
+
+7:49
+	This appears to be a very simple change. Currently finished with both changes and the
+	code is now simpler and easier to read. The .contains() method is extremely helpful.
+	Now, for pattern matching, I'll possibly need to generate responses that
+	find where the phrase is, then find X.
+	I could implement this in my defaulty responses to make them better as well.
+	--- Note, there may be minor problems if X is multiple words.
+
+8:03
+	Learned more about using Vim, ran test on Chatter to see if change made any difference
+	at the same level (I haven't created any multi-word keys for better responses yet)
+	Made next commit to Git.
+	
+	Next objectives:
+	- create and test multi-word
+	- create and test patterns
+	- give multi-word priority over single word
+	- give patterns priority over multi-word
+	- clean up code and commit
+
+8:20
+	Thinking that I may need / want to advance the addName method to choose front or back
+	based on whether or not the front is an interjection, or some other situtions that
+	wouldn't make sense.
+	Just realized that the name needs to alternate position, while it is displayed on
+	a per random basis. I like the second part of this, but the alternating position
+	strictly is "eh" for me. Also, does it only alternate when it has been displayed,
+	or every response? I will go with the times it is displayed, as that would
+	achieve the result of visibly alternating the placement in order to appear more
+	natural to the user. Albeit, this is arguable, so I will decide to have the
+	name placement alternate on a per-use basis.
+
+	Oh, but at the same time, I want to have the alternating disabled for a round
+	if the desired placement makes a grammatical error / doesn't make sense.
+	This will be descibed in comments.
+
+8:37
+	Have done some testing on multi-word. Works fine as far as I can tell.
+	Thinking about an easier way to handle synonyms (I don't want to copy paste sentences).
+	Maybe I can .get(mainSynonym) to reference the same string.
+	Going to try giving priority before adding pattern matching method
+	--- Note: pattern matching may require the original text to find X, which will
+		  require some changes (like making text a private var beyond local)
+	Starting priority task
+	What are some ways to do this?
+	- Make separate lists for basic, multi, and pattern. For each in increasing order,
+	  set response to random within the list if nonempty.
+		- Too brash and direct, but simplish.
+	- Make different responses HashMaps for the three types---
+		- Stopped, bc this seems bad. Too many HMaps and still have similar issue as previous
+	- Marker method, have a sign at the beginng of every response that indicates priority
+		- Complicates responses, but may be easier when choosing response. Would need
+		  to alter the response before delivery though.
+	- Can end matching process if a high-priority response found
+		- Should multi be included? If so, it could cut out patterns, which are higher.
+--- Taking break at 8:53
+--- Resumed at 9:02 and editing README.TXT before resuming brainstorm
+		- Could keep multi as a basic or similar to avoid tri-level priority scheme
+		  Would also be assuming that there won't be any patterns matched.
+
+9:12
+	May actually implement pattern matching before determining priority.
+	How can we do pattern matching?
+	As mentioned, let's call a method that creates a unique response
+		It will take the template phrase
+		Can this be a parameter? method( String "A" + x + "B" )
+		I see this giving an error, but this could be necessary in some form
+		
+		We will also need to search the text, that means that our method needs to access
+		it and text is only a local var. We also shouldn't add that as a parameter, because
+		text is local to generateResponse and not the response HMap --- Is that actually bad?
+		Hmm. It could be bad. I think it may not find the var in some cases.
+		Which leaves us with making "text" or "input" into class vars.
+		Using input over text (raw vs clean) could let us determine the extent of X
+			By that I mean to say that X will be a word or phrase. To accomodate for
+			phases, we need to include the rest of the sentence, or determine the length
+			of the phrase. Generally a multi-word noun (our phrase) will end with punctuation.
+			Although, this assumes that other words won't come after our phrase, X, which
+			is entirely possible, like in this case "I like rock sometimes."
+			
+			Other exceptions would be when the user messes up pattern by adding in
+			adverbs, "I really like", "I always love" for example
+			These exceptions make me think that we could do a sequential pattern match.
+			That would be checking for a set of words such that each occurence
+			appears after the previous (a sequential matching of words as a pattern)
+		With access to a dictionary database, one could define word types and be able to determine
+		When X has ended. However, that is outside the scope of our project, but useful for
+		a larger implementation.
+	At this point, I've spent a lot of time contemplating my options, I'm going to start
+	testing some of the better ideas now. @9:31
+
+10:07 
+	Think I have a decent lead on pattern matching, I don't have any content to test it on yet,
+	but my plan should work decently. The weird parameter issue is fixed by giving a single string
+	that contains "X" where it needs split, then the phrase will be concatenated between the
+	two halfs.
+	The phrase is found by getting the index of the end of the pattern key (+1), then
+	the likely end index of the phrase, which is EOS or wherever a "," shows up.
+	I will acknowledge that I want to include "." in that, but that's likely unnecessary,
+	as the user should be aware of the bot's limitations as AI and a multi-sentence input
+	is somewhat ridiculous. Either way, I may implement that later.
+
+10:26
+	Have changed some variable names, decided to make input a class var for patternResponse()
+	Think I need to fix addName() still, I do that real quick.
+
+10:33
+	Almost done with that, but want to learn how to use streams to check for multiple
+	phrases in one statement. One sec. Lambdas are interesting. But not what I want apparently.
+	almost have found streams.
+	Need to go to bed soon. Going to research this later, and get a working version going now.
+	I'm seeing that many of my responeses aren't suitable to have a name in front by my
+	basic convention. Because of this, I will limit my future responses to be better
+	accomodating. But I will include some starting phrases to exclude like planned.
+10:51
+	About to run a test focused on the new personalization and pattern testing.
+	Just need to convert a few and or make a few patterns.
+11:01
+	Narrowed down a NullPointerException
+	I'm setting input to null in the beginning. The error happens as soon as I start and happens
+	within the patternResponse() method. I suspect that when filling the resonses, the
+	method is called at that moment, rather than calling it when referenced. What is a workaround
+	for this? Hmm
+	This could change the entire way that I do pattern matching. Let's hope not.
+	I have an idea. What if all patterns return "pattern" and or something that indicates
+	their status. If any patterns match while checking for matches, then the method will be
+	called within generateResponse(). Let's test it and call it a night after a summary of today's work.
+	
+11:23
+	No longer need to have input as a class variable because of the change. During generateResponse,
+	while looping through the keys that match, if they start with PATTERN, they are converted
+	on the spot to adapt to the current input.
+	I think that this will work well.
+	Currently sorting out some final logic and syntax errors.
+	Also editing patternResponse to have a more accurate starting index now that I understand how it works
+	(It needs to be the indexOf(pattern) + pattern.length() + 1 so that it starts on the next word.)
+
+11:35 PM 2017.2.19
+	Summary
+	- Added random name inclusion for responses
+	- Modified response matching mechanism
+	- Add primitive pattern response system
+	- Gave respons types priority scheme: default < basic/multi < pattern
+	- Connected project to GitHub
+
+	For next time
+	- Do extensive testing
+	- Expand on content for basic, multi, and pattern
+	- Consider priority for multi's
+	- Review project
+
+	Logging Out
+	Reason: Time to sleep
+
+1:56 PM 2017.2.20
+	Looking over project on GitHub, might run some tests.
+	Adding response content sometime tonight.
+	Logging Out.
+
+9:37 PM 2017.2.21
+	Need to add content and ask CS people to play with chatter. Doing first part now.
+	Realized that the pattern is limited to "__ X" and can't do "X ___" not changing it right now.
+
+9:54 PM
+	This is annoying, but it's kinda fun too. Could make the pattern matching more complicated by
+	adding an if statement that checks for a "Z" rather than "X" and if there is a Z then it would
+	check for the word(s) preceeding the Z. This would be good for, I listened to rock for 8 years
+	where "years" is the key and Z is replaced with 8.
+
+10:03 PM
+	Started researching and found regular expressions. Got depressed that this is an effective
+	way of doing this project and extremely beyond the scope of this class. I want to make cool
+	things but no one else in my classes so far is able to operate on the same level. At least
+	that's how it seems. I'm going to just finish this and go do other things.
+
+10:19
+	Getting a null pointer exception. Seems to stem from an out of bounds index in my patternResponse()
+	Using debugger to see how far it's off by.
+	Oops. Think it was because I didn't specify EOS as the end of string. Let's see if that's true.
+
+10:36
+	Got distracted thinking about how to run a raspberry pi and an old harddrive to serve as
+	a backup server. Still working on patternResponse work around.
+
+10:58
+	Two things probably need to happen.
+	- Fix patternResponse() to not have out of range index
+	- change responses to not reference other responses, because that's returning a null value
+
+11:10
+	The null value being returned was due to an error where I mispelled the key by using a capital "I"
+	The patternResponse() was returning a -1 index for my endIndex because I used a "< endIndex" for what
+	needed to be a "> -1"
+	Understandably, -1 isn't in the index
+
+11:21
+	Tried using .matches, but it's going to cause more trouble than it's worth.
+	Main reason was to eliminate conflict between two basic responses, "meet you" and "too"
+	
+12:36 PM 2017.2.22
+	Forgot to log out. Have a decent version. Now it includes a help key that will give suggestions.
+	The other issues seem to have been fixed, probably going to have someone else test it for
+	poops and giggles.
+
+	Logging out
+	Reason: Done. Or going to bed soon.

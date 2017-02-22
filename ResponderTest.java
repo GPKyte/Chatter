@@ -6,17 +6,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The test class ChatterTest.
+ * The test class ResponderTest.
  *
  * @author  (your name)
  * @version (a version number or a date)
  */
-public class ChatterTest
+public class ResponderTest
 {
     /**
-     * Default constructor for test class ChatterTest
+     * Default constructor for test class ResponderTest
      */
-    public ChatterTest()
+    public ResponderTest()
     {
     }
 
@@ -41,11 +41,12 @@ public class ChatterTest
     }
 
     @Test
-    public void generalTest()
+    public void testPattern()
     {
-        Chatter chatter1 = new Chatter();
-        chatter1.start();
+        Responder responde1 = new Responder();
+        System.out.println("Should see assertion, then the personalized one below.");
+        System.out.println("That's awesome. How long have you liked X?");
+        System.out.println(responde1.generateResponse("i like apples"));
     }
 }
-
 
