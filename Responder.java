@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The responder class represents a response generator object. It is used
- * to generate an automatic response. This is the second version of this 
- * class. This time, we generate some random behavior by randomly selecting 
- * a phrase from a predefined list of responses.
+ * The responder class represents is designed to contain and select relevant
+ * responses to simulate a conversation with the user. In the absence of
+ * a matched response, a default, general response will be used. In
+ * addition, the user can ask for help to get suggestions for conversation topics
  * 
  * @author     Gavin Kyte
- * @version    1.2 (2017.2.21)
+ * @version    1.3 (2017.2.22)
  */
 public class Responder
 {
@@ -40,7 +40,7 @@ public class Responder
      * @return  A string that should be displayed as the response
      */
     public String generateResponse(String input) {
-        // Clean input
+        // Clean input of all punctuation marks
         String text = formatText(input);
         
         // Set default response to a random phrase
@@ -56,6 +56,7 @@ public class Responder
                 if (currentPhrase.startsWith("PATTERN")) {
                     currentPhrase = patternResponse(currentPhrase, key, input); 
                 }
+                
                 matches.add(currentPhrase);
             }  
         }
@@ -113,11 +114,15 @@ public class Responder
      * Prints a good-bye message
      */
     public void printGoodbye() {
-        System.out.println("Nice talking to you! Bye =]");
+        System.out.println("You had " + responseCount + " responses. Thanks!");
+        System.out.println("It was nice talking to you! Bye =]");
     }
     
     /**
      * Build up a list of responses
+     * This includes, basic, multi, PATTERN, and default responses.
+     * The topic is music and the secret word is applefritter,
+     * please use it to find out about my fictitious brother
      */
     private void fillResponses() {
         responses.put("how are you", "I'm doing well. How are you?");
@@ -126,10 +131,12 @@ public class Responder
         responses.put("good", "That's great! I feel that way when I listen to music. What music do you like?");
         responses.put("well", "I see. Well, well, well, what music do you listen to then?");
         responses.put("great", responses.get("good"));
+        responses.put("fantastic", "Really? I'm so glad! You must be listening to some great music lately, what do you like?");
         responses.put("im okay", "You sound a little down. Listen to some music! I recommend some Alt Rock.");
         responses.put("no", "Oh. Well, it's true.");
         responses.put("yes", "I didn't understand that. Yes what?");
         responses.put("meet you", "Aw thanks! Do you like music?");
+        responses.put("okay", "Just okay? You need to give me more to work with than that.");
         
         responses.put("music", "What kind of music do you like?");
         responses.put("rock", "I love AC/DC. How about you?");
@@ -151,11 +158,30 @@ public class Responder
         responses.put("already", "Well it's not my fault that my programmer has a bad imagination.");
         responses.put("no I dont", "You should consider giving it a chance.");
         responses.put("help", "type: music, how are you, I love X... or just tell me what you like.");
-        responses.put("AC/DC is", "PATTERN You think AC/DC is X? That's interesting, what other music do you like?");
+        responses.put("rap", "You listen to rap? Oh my. Well, to each their own.");
+        responses.put("brother", "I'd rather not talk about it. Do you like country?");
+        responses.put("bro", "I'll tell you about it but you need to guess the secret word. \nIt's a type of dessert.");
+        responses.put("sorry", "It's alright .-.\nLet's just change topics okay?");
+        responses.put("techno", "When did you lose your hearing.");
+        responses.put("punk", "I'm sorry :(\nWho hurt you?");
+        responses.put("applefritter", "Yes. That's the secret word and now I'll tell you. My brother was trapped in a well.\n" +
+                      "I was walking back from practice after school and noticed music coming from the well.\n" +
+                      "My brother's iPod was playing full volume from the bottom the of the well.\n" +
+                      "He never had a phone, so he always played music on that old thing...\n" +
+                      "When I walked over, thinking he dropped his iPod, I looked down and saw his\n" +
+                      "limp body floating beneath the well bucket with his iPod inside of it.\n" +
+                      "We were in the country and no one answered when we called the police to help us,\n" +
+                      "Not that it would have helped anyway. I figured out that he had been dead for\n" +
+                      "some time already because of where he was in his playlist.\n" +
+                      "That's half of the story. I can't talk about the rest. Okay?");
+                      
+        responses.put("wow", "Let's talk about something else.");
+                
         
+        responses.put("ac/dc is", "PATTERN You think AC/DC is X? That's interesting, what other music do you like?");
         responses.put("what music do you ", "PATTERN What do I X? Well I really like dubstep.");
         responses.put("no I dont ", "PATTERN You should really consider giving X a chance");
-        responses.put("what should", "PATTERN I'm down to talk about music, what do you think we should X");
+        responses.put("what should", "PATTERN I'm down to talk about music, what do you think we should X ");
         responses.put("can you", "PATTERN X? No, no, that would be bad for my health.");
         responses.put("i love", "PATTERN That's awesome. How long have you liked X?");
         responses.put("i like", responses.get("i love"));
@@ -172,9 +198,6 @@ public class Responder
         defaultResponses.add("Not sure what you mean, could you say that more simply, or in a different way?");
         defaultResponses.add("That reminds me of how my brother died. Can we change the topic?");
         defaultResponses.add("Did you know that aliens smell purple and love breadsticks?");
-        
-        //"favorite, EDM, dubstep, singing, vocals, drums, band, instrument, earbuds, headphones, iphone7, audio"
-        //"Oh, I'm sorry but I think we need to change topics."       
     }
     
     /**

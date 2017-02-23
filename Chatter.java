@@ -2,10 +2,10 @@
 /**
  * This class is a top-level wrapper designed to start and hold a conversation.
  * The topic is decided within the Responder class, as are the responses
- * and messages.
+ * and messages. The inputReader gives a string based on the user's response
  * 
  * @author      Gavin Kyte
- * @version     1.0 (2017.2.19)
+ * @version     1.3 (2017.2.22)
  */
 public class Chatter
 {

@@ -1,14 +1,14 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Chatter()
-comment0.text=\r\n\ Creates\ a\ chatter\r\n
+comment0.text=\n\ Creates\ a\ chatter\n
 comment1.params=
 comment1.target=void\ start()
-comment1.text=\r\n\ Starts\ the\ chatter\ bot.\ Prints\ out\ a\ welcome\ message\ and\r\n\ begins\ a\ conversation\ with\ the\ user\ until\ they\ end\ it.\r\n
+comment1.text=\n\ Starts\ the\ chatter\ bot.\ Prints\ out\ a\ welcome\ message\ and\n\ begins\ a\ conversation\ with\ the\ user\ until\ they\ end\ it.\n
 comment2.params=
 comment2.target=void\ printWelcome()
-comment2.text=\r\n\ Prints\ welcome\ message,\ and\ sets\ the\ name\ within\ responder\r\n
+comment2.text=\n\ Prints\ welcome\ message,\ and\ sets\ the\ name\ within\ responder\n
 comment3.params=
 comment3.target=void\ printGoodbye()
-comment3.text=\r\n\ Prints\ a\ good-bye\ message\r\n
+comment3.text=\n\ Prints\ a\ good-bye\ message\n
 numComments=4
