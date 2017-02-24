@@ -19,6 +19,8 @@ public class Responder
     private ArrayList<String> defaultResponses;
     private String endingString;
     private String name;
+    private int indexOfDefault; // Don't want to repeat default responses twice in a row
+    private boolean inFrontLastTime;
     private int responseCount;
     
     /**
@@ -31,7 +33,9 @@ public class Responder
         endingString = "bye";
         name = "Name";
         responseCount = 0;
+        inFrontLastTime = false;
         fillResponses();
+        indexOfDefault = 0;
     }
 
     /**
@@ -43,8 +47,13 @@ public class Responder
         // Clean input of all punctuation marks
         String text = formatText(input);
         
-        // Set default response to a random phrase
-        String response = defaultResponses.get(randomGenerator.nextInt(defaultResponses.size()));
+        // Set default response to a random phrase thats different from before
+        int nextIndex = randomGenerator.nextInt(defaultResponses.size());
+        while (indexOfDefault == nextIndex) {
+            nextIndex = randomGenerator.nextInt(defaultResponses.size());
+        }
+        indexOfDefault = nextIndex;
+        String response = defaultResponses.get(indexOfDefault);
         
         // Getting list of matched responses
         ArrayList<String> matches = new ArrayList<>();
@@ -261,18 +270,19 @@ public class Responder
         boolean canBeFront = !(phrase.startsWith("Oh") || phrase.startsWith("Nice") || phrase.startsWith("Aw"));
         
         // Deciding front or back
-        if (includeName && (canBeFront && responseCount % 2 == 1)) {
+        if (includeName && (canBeFront && ! inFrontLastTime)) {
             // front
             // lower case start of string if not "I "
             if (! phrase.startsWith("I ")) {
                 phrase = phrase.substring(0,1).toLowerCase() + phrase.substring(1);
             }
             phrase = name + ", " + phrase;
-            
+            inFrontLastTime = true;
         } else if (includeName) {
             // back
             // need to splice in name before ending punctuation
             phrase = phrase.substring(0, phrase.length()-1) + ", " + name + phrase.charAt(phrase.length()-1);
+            inFrontLastTime = false;
         }
         
         return phrase;
