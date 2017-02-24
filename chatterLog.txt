@@ -322,10 +322,8 @@
 	where "years" is the key and Z is replaced with 8.
 
 10:03 PM
-	Started researching and found regular expressions. Got depressed that this is an effective
-	way of doing this project and extremely beyond the scope of this class. I want to make cool
-	things but no one else in my classes so far is able to operate on the same level. At least
-	that's how it seems. I'm going to just finish this and go do other things.
+	Started researching and found regular expressions. Interesting that this is a (possibly) effective
+	way of doing this project and is extremely beyond the scope of this class.
 
 10:19
 	Getting a null pointer exception. Seems to stem from an out of bounds index in my patternResponse()
